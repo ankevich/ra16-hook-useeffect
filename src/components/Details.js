@@ -3,26 +3,33 @@ import styled from "styled-components";
 import { useState } from "react";
 
 const Details = ({ info }) => {
-  const [state, setState] = useState({});
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetch(
       `https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${info.id}.json`
     )
       .then((response) => response.json())
-      .then((data) => setState(data));
+      .then((data) => setUser(data))
+      .finally(() => setIsLoading(false));
   });
 
-  if (state.id === undefined) {
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (user.id === undefined) {
     return null;
   }
-  
+
   return (
     <StyledDetails>
-      <img src={state.avatar}></img>
-      <p>{state.name}</p>
-      <p>{state.details.city}</p>
-      <p>{state.details.company}</p>
-      <p>{state.details.position}</p>
+      <img src={user.avatar}></img>
+      <p>{user.name}</p>
+      <p>{user.details.city}</p>
+      <p>{user.details.company}</p>
+      <p>{user.details.position}</p>
     </StyledDetails>
   );
 };
