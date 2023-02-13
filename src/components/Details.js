@@ -7,13 +7,14 @@ const Details = ({ info }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/${info.id}.json`
     )
       .then((response) => response.json())
       .then((data) => setUser(data))
       .finally(() => setIsLoading(false));
-  });
+  }, [info.id]);
 
   if (isLoading) {
     return <p>Loading...</p>;

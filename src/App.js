@@ -6,6 +6,7 @@ import Details from "./components/Details";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     fetch(
@@ -19,10 +20,17 @@ function App() {
     <Container>
       <List>
         {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+          <li
+            onClick={() => {
+              setSelectedUser(user.id);
+            }}
+            key={user.id}
+          >
+            {user.name}
+          </li>
         ))}
       </List>
-      <Details info={{ id: 2, name: "name" }}></Details>
+      <Details info={{ id: selectedUser, name: "name" }}></Details>
     </Container>
   );
 }
