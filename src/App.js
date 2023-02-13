@@ -1,21 +1,28 @@
 import "./App.css";
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useState } from "react";
+import Details from "./components/Details";
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/users.json"
+    )
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
+  }, []);
+
   return (
     <Container>
       <List>
-        <li>Dorthy McClure Sr.</li>
-        <li>Kyleigh Ortiz</li>
-        <li>Delia Halvorson</li>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
       </List>
-      <Details>
-        <img src = "https://i.pravatar.cc/300"></img>
-        <p>Kyleigh Ortiz</p>
-        <p>City: Kassulkeport</p>
-        <p>Company: Jacobson - Davis</p>
-        <p>Position: Dynamic Accountability Strategist</p>
-      </Details>
+      <Details info={{ id: 2, name: "name" }}></Details>
     </Container>
   );
 }
@@ -33,16 +40,6 @@ const List = styled.ul`
   }
   li:last-child {
     border-bottom: none;
-  }
-`;
-
-const Details = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  p {
-    margin: 0;
-    padding: 8px;
   }
 `;
 
